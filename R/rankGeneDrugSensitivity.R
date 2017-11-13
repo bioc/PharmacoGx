@@ -32,6 +32,9 @@ rankGeneDrugSensitivity <- function (data, drugpheno, type, batch, single.type=F
 
     drugpheno <- data.frame(drugpheno)
 
+  } else if(class(drugpheno)!="data.frame"){
+    drugpheno <- as.data.frame(drugpheno)
+
   }
 
   if (missing(type) || all(is.na(type))) {
@@ -57,7 +60,7 @@ rankGeneDrugSensitivity <- function (data, drugpheno, type, batch, single.type=F
   nn <- sum(ccix)
 #  nc <- c("estimate", "se", "n", "tstat", "fstat", "pvalue", "fdr")
 #  nc <- c("estimate", "se", "n", "pvalue", "fdr")
-  if(!any(apply(drugpheno,2,is.factor))){
+  if(!any(unlist(lapply(drugpheno,is.factor)))){
      if(ncol(drugpheno)>1){
       ##### FIX NAMES!!!
       nc <- lapply(1:ncol(drugpheno), function(i){
@@ -83,7 +86,12 @@ rankGeneDrugSensitivity <- function (data, drugpheno, type, batch, single.type=F
   
   for (ll in 1:length(ltype)) {
     iix <- !is.na(type) & is.element(type, ltype[[ll]])
-    ccix <- complete.cases(data[iix, , drop=FALSE], drugpheno[iix,,drop=FALSE], type[iix], batch[iix])
+    # ccix <- complete.cases(data[iix, , drop=FALSE], drugpheno[iix,,drop=FALSE], type[iix], batch[iix]) ### HACK???
+    
+    ccix <- !sapply(seq_len(NROW(data[iix,,drop=FALSE])), function(x) {
+      return(all(is.na(data[iix,,drop=FALSE][x,])) || all(is.na(drugpheno[iix,,drop=FALSE][x,])) || all(is.na(type[iix][x])) || all(is.na(batch[iix][x])))
+    })
+
     if (sum(ccix) < 3) {
       ## not enough experiments
       rest <- list(matrix(NA, nrow=ncol(data), ncol=length(nc), dimnames=list(colnames(data), nc)))

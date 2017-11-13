@@ -26,6 +26,15 @@ geneDrugSensitivity <- function(x, type, batch, drugpheno, interaction.typexgene
 ##  vector reporting the effect size (estimateof the coefficient of drug concentration), standard error (se), sample size (n), t statistic, and F statistics and its corresponding p-value
 
   standardize <- match.arg(standardize)
+  
+  colnames(drugpheno) <- paste("drugpheno", 1:ncol(drugpheno), sep=".")  
+  
+  drugpheno <- data.frame(sapply(drugpheno, function(x) {
+    if (!is.factor(x)) {
+      x[is.infinite(x)] <- NA
+    }
+    return(list(x))
+  }, USE.NAMES=FALSE), check.names=FALSE)
 
   ccix <- complete.cases(x, type, batch, drugpheno)
   nn <- sum(ccix)
@@ -81,12 +90,12 @@ geneDrugSensitivity <- function(x, type, batch, drugpheno, interaction.typexgene
   if(ncol(drugpheno)>1){
     ff0 <- paste("cbind(", paste(paste("drugpheno", 1:ncol(drugpheno), sep="."), collapse=","), ")", sep="")
   } else {
-    ff0 <- sprintf("drugpheno")
+    ff0 <- sprintf("drugpheno.1")
   }
 
   # ff1 <- sprintf("%s + x", ff0)
 
-  dd <- data.frame("drugpheno"=drugpheno, "x"=xx)
+  dd <- data.frame(drugpheno, "x"=xx)
   # , "x"=xx, "type"=type[ccix], "batch"=batch[ccix])
   
   ## control for tissue type
@@ -112,26 +121,28 @@ geneDrugSensitivity <- function(x, type, batch, drugpheno, interaction.typexgene
   #   drugpheno <- as.matrix(drugpheno)
 
   # }
-if(is.factor(drugpheno)){
+if(any(unlist(lapply(drugpheno,is.factor)))){
 
-rr0 <- tryCatch(try(glm(formula(drugpheno ~ . - x), data=dd, model=FALSE, x=FALSE, y=FALSE, family="binomial")), 
+rr0 <- tryCatch(try(glm(formula(drugpheno.1 ~ . - x), data=dd, model=FALSE, x=FALSE, y=FALSE, family="binomial")), 
     warning=function(w) {
       if(verbose) {
         ww <- "Null model did not convrge"
-        tt <- table(dd[,"type"])
         print(ww)
-        print(tt)
+        if("type" %in% colnames(dd)) {
+          tt <- table(dd[,"type"])
+          print(tt)
+        }
       }
     })
-  rr1 <- tryCatch(try(glm(formula(drugpheno ~ .), data=dd, model=FALSE, x=FALSE, y=FALSE, family="binomial")), 
+  rr1 <- tryCatch(try(glm(formula(drugpheno.1 ~ .), data=dd, model=FALSE, x=FALSE, y=FALSE, family="binomial")), 
     warning=function(w) {
       if(verbose) {
-        ww <- "Model did not convrge"
-        tt <- table(dd[,"drugpheno"])
+        ww <- "Model did not converge"
+        tt <- table(dd[,"drugpheno.1"])
         print(ww)
         print(tt)
-        return(ww)
       }
+      return(ww)
     })
 
 
@@ -140,21 +151,23 @@ rr0 <- tryCatch(try(glm(formula(drugpheno ~ . - x), data=dd, model=FALSE, x=FALS
 rr0 <- tryCatch(try(lm(formula(paste(ff0, "~ . -x", sep=" ")), data=dd)), 
     warning=function(w) {
       if(verbose) {
-        ww <- "Null model did not convrge"
-        tt <- table(dd[,"type"])
+        ww <- "Null model did not converge"
         print(ww)
-        print(tt)
+        if("type" %in% colnames(dd)) {
+          tt <- table(dd[,"type"])
+          print(tt)
+        }      
       }
     })
   rr1 <- tryCatch(try(lm(formula(paste(ff0, "~ . ", sep=" ")), data=dd)), 
     warning=function(w) {
       if(verbose) {
-        ww <- "Model did not convrge"
-        tt <- table(dd[,"drugpheno"])
+        ww <- "Model did not converge"
+        tt <- table(dd[,"drugpheno.1"])
         print(ww)
         print(tt)
-        return(ww)
       }
+      return(ww)
     })
 
 
@@ -164,7 +177,7 @@ rr0 <- tryCatch(try(lm(formula(paste(ff0, "~ . -x", sep=" ")), data=dd)),
   if (class(rr0) != "try-error" && class(rr1) != "try-error" & class(rr0) != "character" && class(rr1) != "character") {
     rr <- summary(rr1)
 
-    if(is.factor(drugpheno)){
+    if(any(unlist(lapply(drugpheno,is.factor)))){
       rrc <- stats::anova(rr0, rr1, test="Chisq")
       rest <- c("estimate"=rr$coefficients[grep("^x", rownames(rr$coefficients)), "Estimate"], "se"=rr$coefficients[grep("^x", rownames(rr$coefficients)), "Std. Error"], "n"=nn, "pvalue"=rrc$'Pr(>Chi)'[2])
       names(rest) <- c("estimate", "se", "n", "pvalue")
