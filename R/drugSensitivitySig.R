@@ -68,8 +68,6 @@ drugSensitivitySig <- function(pSet,
  mDataType,
  drugs,
  features,
- cells, 
- tissues,
  sensitivity.measure = "auc_recomputed", 
  molecular.summary.stat = c("mean", "median", "first", "last", "or", "and"), 
  sensitivity.summary.stat = c("mean", "median", "first", "last"), 
@@ -148,11 +146,11 @@ drugSensitivitySig <- function(pSet,
     drugn <- drugs
   }
 
-  if (missing(cells)){
+  # if (missing(cells)){
     celln <- cells <- cellNames(pSet)
-  } else {
-    celln <- cells
-  }
+  # } else {
+  #   celln <- cells
+  # }
 
   availcore <- parallel::detectCores()
   if ( nthread > availcore) {
@@ -200,11 +198,11 @@ drugSensitivitySig <- function(pSet,
     }
     celln <- celln[cix]
     
-    if(!missing(tissues)){
-      celln <- celln[cellInfo(pSet)[celln,"tissueid"] %in% tissues]
-    } else {
+    # if(!missing(tissues)){
+    #   celln <- celln[cellInfo(pSet)[celln,"tissueid"] %in% tissues]
+    # } else {
       tissues <- unique(cellInfo(pSet)$tissueid)
-    }
+    # }
 
     pSet@molecularProfiles[[mDataType]] <- summarizeMolecularProfiles(pSet = pSet,
       mDataType = mDataType,
