@@ -33,7 +33,9 @@
 #'   If NA, no binarization is done.
 #' @param binarize.direction \code{character} One of "less" or "greater", the direction of binarization on 
 #'   binarize.threshold, if it is not NA. 
-#'   
+#' @param removeTreated \code{logical} If treated/perturbation experiments are present, should they
+#'   be removed? Defaults to TRUE.
+#' 
 #' @return \code{matrix} An updated PharmacoSet with the molecular data summarized
 #'   per cell line.
 #'  
@@ -61,12 +63,14 @@ setMethod('summarizeMolecularProfiles', signature(object='PharmacoSet'),
                                        summarize = TRUE, 
                                        verbose = TRUE,
                                        binarize.threshold = NA, 
-                                       binarize.direction = c("less", "greater")
+                                       binarize.direction = c("less", "greater"),
+                                       removeTreated=TRUE
                                        ) {
   
   
-  ### Placed here to make sure the object argument gets checked first by R.
-  mDataTypes <- names(object@molecularProfiles)
+
+  ### Placed here to make sure the pSet argument gets checked first by R. 
+  mDataTypes <- mDataNames(pSet)
   if (!(mDataType %in% mDataTypes)) {
     stop (sprintf("Invalid mDataType, choose among: %s", paste(names(object@molecularProfiles), collapse=", ")))
   }
@@ -99,6 +103,21 @@ setMethod('summarizeMolecularProfiles', signature(object='PharmacoSet'),
     cell.lines <- cellNames(object)
   }
   
+  if(pSet@datasetType %in% c("perturbation", "both") && removeTreated){
+    if(!"xptype" %in% colnames(phenoInfo(pSet, mDataType))) {
+      warning("The passed in molecular data had no column: xptype.
+               \rEither the mDataType does not include perturbations, or the PSet is malformed.
+               \rAssuming the former and continuing.")
+    } else {
+      keepCols <- phenoInfo(pSet, mDataType)$xptype %in% c("control", "untreated")
+      molecularProfilesSlot(pSet)[[mDataType]] <- molecularProfilesSlot(pSet)[[mDataType]][,keepCols]      
+    }
+
+  }
+
+
+
+
   ##TODO:: have less confusing variable names
   dd <- molecularProfiles(object, mDataType)
   pp <- phenoInfo(object, mDataType)
