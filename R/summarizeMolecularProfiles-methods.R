@@ -33,9 +33,7 @@
 #'   If NA, no binarization is done.
 #' @param binarize.direction \code{character} One of "less" or "greater", the direction of binarization on 
 #'   binarize.threshold, if it is not NA. 
-#' @param removeTreated \code{logical} If treated/perturbation experiments are present, should they
-#'   be removed? Defaults to TRUE.
-#' 
+#'
 #' @return \code{matrix} An updated PharmacoSet with the molecular data summarized
 #'   per cell line.
 #'  
@@ -53,6 +51,7 @@ setMethod('summarizeMolecularProfiles', signature(object='PharmacoSet'),
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @importFrom SummarizedExperiment SummarizedExperiment rowData rowData<- colData colData<- assays assays<- assayNames assayNames<-
 #' @importFrom Biobase AnnotatedDataFrame
+#' @importFrom CoreGx molecularProfilesSlot molecularProfilesSlot<-
 #' @keywords internal
 .summarizeMolecularProfilesPharmacoSet <- function(object,
                                        mDataType, 
@@ -67,10 +66,9 @@ setMethod('summarizeMolecularProfiles', signature(object='PharmacoSet'),
                                        removeTreated=TRUE
                                        ) {
   
-  
 
   ### Placed here to make sure the pSet argument gets checked first by R. 
-  mDataTypes <- mDataNames(pSet)
+  mDataTypes <- mDataNames(object)
   if (!(mDataType %in% mDataTypes)) {
     stop (sprintf("Invalid mDataType, choose among: %s", paste(names(object@molecularProfiles), collapse=", ")))
   }
@@ -103,14 +101,14 @@ setMethod('summarizeMolecularProfiles', signature(object='PharmacoSet'),
     cell.lines <- cellNames(object)
   }
   
-  if(pSet@datasetType %in% c("perturbation", "both") && removeTreated){
-    if(!"xptype" %in% colnames(phenoInfo(pSet, mDataType))) {
+  if(object@datasetType %in% c("perturbation", "both") && removeTreated){
+    if(!"xptype" %in% colnames(phenoInfo(object, mDataType))) {
       warning("The passed in molecular data had no column: xptype.
                \rEither the mDataType does not include perturbations, or the PSet is malformed.
                \rAssuming the former and continuing.")
     } else {
-      keepCols <- phenoInfo(pSet, mDataType)$xptype %in% c("control", "untreated")
-      molecularProfilesSlot(pSet)[[mDataType]] <- molecularProfilesSlot(pSet)[[mDataType]][,keepCols]      
+      keepCols <- phenoInfo(object, mDataType)$xptype %in% c("control", "untreated")
+      molecularProfilesSlot(object)[[mDataType]] <- molecularProfilesSlot(object)[[mDataType]][,keepCols]      
     }
 
   }

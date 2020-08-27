@@ -13,4 +13,5 @@ old_data
 vignettes/figure
 ^doc$
 ^Meta$
-*drugSensitivitySig2.R
+.*drugSensitivitySig2.R
+.idea
