@@ -483,7 +483,7 @@ setMethod(sensitivityInfo, "PharmacoSet", function(object){
 #' @describeIn PharmacoSet Update the sensitivity experiment info
 #' @export
 setReplaceMethod("sensitivityInfo", signature = signature(object="PharmacoSet",value="data.frame"), function(object, value){
-  callNextMethod(object, value)
+  callNextMethod(object=object, value=value)
 })
 
 
@@ -528,13 +528,13 @@ setMethod(sensitivityProfiles, "PharmacoSet", function(object) {
 #'   sensitivity
 #' @export
 setReplaceMethod("sensitivityProfiles", signature = signature(object="PharmacoSet",value="data.frame"), function(object, value){
-  callNextMethod(object, value)
+  callNextMethod(object=object, value=value)
 })
 #' @describeIn PharmacoSet Update the phenotypic data for the drug dose
 #'   sensitivity
 #' @export
 setReplaceMethod("sensitivityProfiles", signature = signature(object="PharmacoSet",value="matrix"), function(object, value){
-  callNextMethod(object, value)
+  callNextMethod(object=object, value=value)
 })
 
 #' sensitivityMeasures Generic
@@ -637,7 +637,7 @@ setMethod(cellNames, "PharmacoSet", function(object){
 #' @describeIn PharmacoSet Update the cell names used in the dataset
 #' @export
 setReplaceMethod("cellNames", signature = signature(object="PharmacoSet",value="character"), function(object, value){
-    callNextMethod(object, value)
+    callNextMethod(object=object, value=value)
 })
 
 #' fNames

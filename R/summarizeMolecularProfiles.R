@@ -33,9 +33,7 @@
 #'   If NA, no binarization is done.
 #' @param binarize.direction \code{character} One of "less" or "greater", the direction of binarization on 
 #'   binarize.threshold, if it is not NA. 
-#' @param removeTreated \code{logical} If treated/perturbation experiments are present, should they
-#'   be removed? Defaults to TRUE.
-#' 
+#'
 #' @return \code{matrix} An updated PharmacoSet with the molecular data summarized
 #'   per cell line.
 #'  
