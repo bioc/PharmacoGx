@@ -1,78 +1,43 @@
 Package: PharmacoGx
 Type: Package
 Title: Analysis of Large-Scale Pharmacogenomic Data
-Version: 2.0.1
-Date: 2020-06-26
+Version: 2.0.7
+Date: 2020-09-01
 Author: Petr Smirnov, Zhaleh Safikhani, Christopher Eeles, Mark Freeman, Benjamin Haibe-Kains
 Maintainer: Benjamin Haibe-Kains <benjamin.haibe.kains@utoronto.ca>
 Description: Contains a set of functions to perform large-scale analysis of pharmacogenomic data.
 License: Artistic-2.0
-Suggests: pander,
-    rmarkdown,
-    knitr,
-    knitcitations
+Suggests: pander, rmarkdown, knitr, knitcitations
 Encoding: UTF-8
-Imports: 
-    Biobase,
-    S4Vectors,
-    SummarizedExperiment,
-    BiocParallel,
-    ggplot2,
-    magicaxis, 
-    RColorBrewer, 
-    parallel, 
-    caTools, 
-    methods, 
-    downloader, 
-    stats, 
-    utils, 
-    graphics, 
-    grDevices, 
-    reshape2,
-    testthat,
-    jsonlite
+Imports: Biobase, S4Vectors, SummarizedExperiment, BiocParallel,
+        ggplot2, magicaxis, RColorBrewer, parallel, caTools, methods,
+        downloader, stats, utils, graphics, grDevices, reshape2,
+        testthat, jsonlite
 Depends: R (>= 3.6), CoreGx
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr
-biocViews: GeneExpression, Pharmacogenetics, Pharmacogenomics, Software, Classification
+biocViews: GeneExpression, Pharmacogenetics, Pharmacogenomics,
+        Software, Classification
 BugReports: https://github.com/bhklab/PharmacoGx/issues
-Collate: 
-    'AdaptiveMatthewCor.R'
-    'ComputeGR.R'
-    'GR.R'
-    'GWC.R'
-    'LogLogisticRegression.R'
-    'MatthewCor.R'
-    'PharmacoSetClass.R'
-    'SanityCheck.R'
-    'callingWaterfall.R'
-    'computeABC.R'
-    'computeAUC.R'
-    'computeAUC_old.R'
-    'computeAmax.R'
-    'computeDSS.R'
-    'computeDrugSensitivity.R'
-    'computeIC50.R'
-    'computeICn.R'
-    'computeSlope.R'
-    'connectivityScore.R'
-    'cosinePerm.R'
-    'datasets.R'
-    'downloadPSet.R'
-    'downloadSignatures.R'
-    'drugDoseResponseCurve.R'
-    'drugPerturbationSig.R'
-    'drugSensitivitySig-methods.R'
-    'filterNoisyCurves.R'
-    'geneDrugPerturbation.R'
-    'geneDrugSensitivity.R'
-    'getRawSensitivityMatrix.R'
-    'globals.R'
-    'intersectPSets.R'
-    'signatureClass.R'
-    'plotPSig.R'
-    'rankGeneDrugPerturbation.R'
-    'rankGeneDrugSensitivity.R'
-    'summarizeMolecularProfiles-methods.R'
-    'summarizeSensitivityProfiles-methods.R'
-    'utilities.R'
+Collate: 'AdaptiveMatthewCor.R' 'ComputeGR.R' 'GR.R' 'GWC.R'
+        'LogLogisticRegression.R' 'MatthewCor.R' 'PharmacoSetClass.R'
+        'SanityCheck.R' 'callingWaterfall.R' 'computeABC.R'
+        'computeAUC.R' 'computeAUC_old.R' 'computeAmax.R'
+        'computeDSS.R' 'computeDrugSensitivity.R' 'computeIC50.R'
+        'computeICn.R' 'computeSlope.R' 'connectivityScore.R'
+        'cosinePerm.R' 'datasets.R' 'downloadPSet.R'
+        'downloadSignatures.R' 'drugDoseResponseCurve.R'
+        'drugPerturbationSig.R' 'drugSensitivitySig.R'
+        'filterNoisyCurves.R' 'geneDrugPerturbation.R'
+        'geneDrugSensitivity.R' 'getRawSensitivityMatrix.R' 'globals.R'
+        'intersectPSets.R' 'signatureClass.R' 'plotPSig.R'
+        'rankGeneDrugPerturbation.R' 'rankGeneDrugSensitivity.R'
+        'summarizeMolecularProfiles.R' 'summarizeSensitivityProfiles.R'
+        'utilities.R'
+git_url: https://git.bioconductor.org/packages/PharmacoGx
+git_branch: RELEASE_3_11
+git_last_commit: f8fed56
+git_last_commit_date: 2020-06-29
+Date/Publication: 2020-06-29
+NeedsCompilation: no
+Packaged: 2020-06-30 01:23:04 UTC; biocbuild

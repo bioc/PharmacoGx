@@ -919,17 +919,10 @@ setMethod("dim", signature=signature(x="PharmacoSet"), function(x){
 #' 
 #' @return A PharmacoSet with only the selected drugs and cells
 #' 
-#' @importMethodsFrom CoreGx subsetTo
-#' @export
-setMethod('subsetTo', signature(object='PharmacoSet'), function(object, cells=NULL, drugs=NULL, molecular.data.cells=NULL,
-                     keep.controls=TRUE, ...){
-  .subsetToPharmacoSet(object=object, cells=cells, drugs=drugs, molecular.data.cells=molecular.data.cells,
-                       keep.controls=keep.controls)
-})
-
 #' @importFrom CoreGx .intersectList
-#' @keywords internal
-.subsetToPharmacoSet <- function(object, cells=NULL, drugs=NULL, molecular.data.cells=NULL,
+#' @export
+# subsetTo <- function(object, cells=NULL, drugs=NULL, exps=NULL, molecular.data.cells=NULL, keep.controls=TRUE) {
+subsetTo <- function(object, cells=NULL, drugs=NULL, molecular.data.cells=NULL, 
                      keep.controls=TRUE, ...) {
   drop=FALSE #TODO:: Is this supposed to be here?
   

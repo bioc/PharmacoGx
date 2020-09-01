@@ -1,8 +1,10 @@
+^renv$
+^renv\.lock$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 .travis.yml
 appveyor.yml
-codecover.R
+.*codecover.R
 .git
 .gitignore
 old_data
@@ -13,4 +15,5 @@ old_data
 vignettes/figure
 ^doc$
 ^Meta$
-*drugSensitivitySig2.R
+.*drugSensitivitySig2.R
+.*renv
