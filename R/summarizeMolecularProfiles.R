@@ -42,7 +42,7 @@
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @importFrom SummarizedExperiment SummarizedExperiment rowData rowData<- colData colData<- assays assays<- assayNames assayNames<-
 #' @importFrom Biobase AnnotatedDataFrame
-#' @importFrom CoreGx 
+#' @importFrom CoreGx molecularProfilesSlot molecularProfilesSlot<-
 #' @export
 summarizeMolecularProfiles <- function(pSet, 
                                        mDataType, 

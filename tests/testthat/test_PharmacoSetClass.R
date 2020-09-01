@@ -122,26 +122,3 @@ test_that("updateDrugId works with duplicates", {
     expect_equal(sort(colnames(sensNumber(GDSCsmall))), sort(unique(newNames)))
 
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -50,4 +50,3 @@ test_that("Summarize Sensitivity Profiles parameters work as expected", {
   expect_equal(ncol(summarizeSensitivityProfiles(GDSCsmall, fill.missing = FALSE)), length(unique(GDSCsmall@sensitivity$info$cellid)))
   expect_equal(ncol(summarizeSensitivityProfiles(GDSCsmall, fill.missing = TRUE)), length(cellNames(GDSCsmall)))
 })
-

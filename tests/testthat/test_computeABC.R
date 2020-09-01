@@ -60,4 +60,3 @@ test_that("Function values make sense",{
 	expect_equal(computeABC(conc1=c(-1,0,1), conc2=c(-1,0,1), Hill_fit1=c(0,1,0), Hill_fit2=c(1,0,0), conc_as_log=TRUE, viability_as_pct=FALSE), 0.5)
 	expect_equal(computeABC(conc1=c(-1,0,1), conc2=c(-1,0,1), Hill_fit1=c(0,1,0), Hill_fit2=c(0,1,0), conc_as_log=TRUE, viability_as_pct=FALSE), 0)
 })
-
