@@ -24,9 +24,9 @@
 availablePSets <- function(canonical=TRUE){
 
   if (canonical) {
-    avail.psets <- fromJSON("http://www.orcestra.ca/api/psets/canonical")
+    avail.psets <- fromJSON("http://www.orcestra.ca/api/pset/canonical")
   } else {
-    avail.psets <- fromJSON("http://www.orcestra.ca/api/psets/available")
+    avail.psets <- fromJSON("http://www.orcestra.ca/api/pset/available")
   }
 
 
